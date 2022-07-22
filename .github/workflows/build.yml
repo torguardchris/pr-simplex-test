@@ -18,10 +18,21 @@ jobs:
           install: true
           config: .github/buildkitd.toml
 
-      - name: Build
+      - name: Setup Docker binfmt
         run: |
           docker run --privileged --rm tonistiigi/binfmt --install all
-          docker buildx build --platform 'linux/amd64,linux/arm64,linux/arm/v7' --target export --output ${PWD}/out .
+
+      - name: Build armv7
+        run: |
+          docker buildx build --platform 'linux/arm/v7' --target export --output ${PWD}/out .
+
+      - name: Build arm64
+        run: |
+          docker buildx build --platform 'linux/arm64' --target export --output ${PWD}/out .
+
+      - name: Build amd64
+        run: |
+          docker buildx build --platform 'linux/amd64' --target export --output ${PWD}/out .
 
       - name: List Compiled
         run: |
