@@ -16,6 +16,7 @@ jobs:
         id: buildx
         with:
           install: true
+          config: .github/buildkitd.toml
 
       - name: Build
         run: |
